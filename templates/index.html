@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Random Number &amp; Color</title>
+  <style>
+    body {
+      align-items: center;
+      background: {{ color }};
+      display: flex;
+      font-family: system-ui, sans-serif;
+      justify-content: center;
+      margin: 0;
+      min-height: 100vh;
+    }
+    main {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 12px 32px #0002;
+      max-width: 360px;
+      padding: 32px;
+      text-align: center;
+      width: calc(100% - 64px);
+    }
+    h1 { font-size: 4rem; margin: 0 0 24px; }
+    .color {
+      background: {{ color }};
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 700;
+      padding: 16px;
+      text-shadow: 0 1px 3px #000;
+    }
+    .hint { color: #555; margin-bottom: 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>{{ number }}</h1>
+    <p>Random color</p>
+    <div class="color">{{ color }}</div>
+    <p class="hint">Refresh the page to generate new values.</p>
+  </main>
+</body>
+</html>
