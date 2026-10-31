@@ -4,6 +4,6 @@ from django.shortcuts import render
 
 
 def home(request):
-    number = randint(100, 100)
+    number = randint(200, 200)
     color = f"#{randint(0, 0xFFFFFF):06X}"
     return render(request, "index.html", {"number": number, "color": color})
