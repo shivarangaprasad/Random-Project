@@ -28,7 +28,7 @@ jobs:
       - name: Install OpenShift CLI Tools
         uses: redhat-actions/oc-login@v1
         with:
-          openshift_server: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }} # 👈 FIXED KEYWORD PARAMETER NAME
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           insecure_skip_tls_verify: true
           namespace: bharadwaj-siva-dev
