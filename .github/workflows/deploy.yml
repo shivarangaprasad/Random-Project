@@ -25,10 +25,15 @@ jobs:
           push: true
           tags: ${{ secrets.REGISTRY_USERNAME }}/random-project-git:latest
 
-      - name: Install OpenShift CLI Tools
+      - name: Download & Install OpenShift CLI Tools 🛠️
+        uses: redhat-actions/openshift-tools-installer@v1
+        with:
+          oc: "4.14" # 👈 Installs the required 'oc' binary onto the runner environment
+
+      - name: Log in to OpenShift Cluster
         uses: redhat-actions/oc-login@v1
         with:
-          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }} # 👈 FIXED KEYWORD PARAMETER NAME
+          openshift_server_url: ${{ secrets.OPENSHIFT_SERVER }}
           openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
           insecure_skip_tls_verify: true
           namespace: bharadwaj-siva-dev
