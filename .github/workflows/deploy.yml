@@ -30,3 +30,8 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.REGISTRY_USERNAME }}/random-project-git:latest # 👈 Always pushes the newest build here
+      - name: Force OpenShift Serverless Rollout 🚀
+        run: |
+          curl -X PATCH "https://openshiftapps.com" \
+          -H "User-Agent: GitHub-Actions-Rollout-Trigger" \
+          --fail || true
