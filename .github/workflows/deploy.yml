@@ -3,10 +3,10 @@ name: Automated Serverless CI/CD Pipeline
 on:
   push:
     branches:
-      - main # 
+      - main # 👈 Triggers instantly on every commit to main
 
 jobs:
-  build-and-push:
+  build-push-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Source Code
@@ -18,20 +18,21 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Extract Metadata (Tags/Digests)
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ secrets.REGISTRY_USERNAME }}/random-project-git
-
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: ${{ secrets.REGISTRY_USERNAME }}/random-project-git:latest # 👈 Always pushes the newest build here
-      - name: Force OpenShift Serverless Rollout 🚀
+          tags: ${{ secrets.REGISTRY_USERNAME }}/random-project-git:latest
+
+      - name: Install OpenShift CLI Tools
+        uses: redhat-actions/oc-login@v1
+        with:
+          openshift_server: ${{ secrets.OPENSHIFT_SERVER }}
+          openshift_token: ${{ secrets.OPENSHIFT_TOKEN }}
+          insecure_skip_tls_verify: true
+          namespace: bharadwaj-siva-dev
+
+      - name: Mutate Configuration & Force Rollout 🚀
         run: |
-          curl -X PATCH "https://openshiftapps.com" \
-          -H "User-Agent: GitHub-Actions-Rollout-Trigger" \
-          --fail || true
+          oc patch ksvc random-project-git --type=merge -p '{"spec":{"template":{"metadata":{"annotations":{"client.knative.dev/nonce":"'${{ github.run_number }}'"}}}}}'
